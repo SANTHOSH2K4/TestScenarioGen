@@ -23,7 +23,7 @@ function createFormattedDiv(inputString) {
         // Replace [text](link) with <a href="link">text</a>
         str = str.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
 
-        // Replace > for blockquotes
+        // Replace blockquote syntax with <blockquote>
         str = str.replace(/^>\s*(.+)/gm, "<blockquote>$1</blockquote>");
 
         // Ensure proper numbering of lists
@@ -34,12 +34,12 @@ function createFormattedDiv(inputString) {
         });
 
         // Handle bullet points (*)
-        str = str.replace(/^\*/gm, "<li>").replace(/<li>(.+)/g, "<li>$1</li>");
+        str = str.replace(/^\*\s?/gm, "<li>").replace(/<li>(.+)/g, "<li>$1</li>");
 
         // Wrap bullet points in <ul></ul>
         str = str.replace(/(<li>.+?<\/li>)/gs, "<ul>$1</ul>");
 
-        // Split text into paragraphs by detecting double newlines or similar separators
+        // Split text into paragraphs by detecting double newlines
         const paragraphs = str.split(/\n{2,}/)
             .map(p => p.trim()) // Trim each paragraph
             .filter(p => p); // Remove empty paragraphs
@@ -48,16 +48,44 @@ function createFormattedDiv(inputString) {
         return paragraphs.map(p => `<p>${p.replace(/\n/g, "<br>")}</p>`).join("");
     }
 
-    // Analyze and clean the string
-    const formattedContent = cleanAndFormatString(inputString);
+    // Handle tables in the input string
+    function convertTableToHTML(str) {
+        const tableRegex = /\|(.+?)\|/g;
+        const rows = str.split("\n").filter(line => line.startsWith("|")).map(line =>
+            line.split("|").slice(1, -1).map(cell => cell.trim())
+        );
 
-    // Create a div element and populate it with formatted content
+        if (rows.length > 1) {
+            const headers = rows.shift();
+            const tableHTML = `
+                <table border="1">
+                    <thead>
+                        <tr>${headers.map(header => `<th>${header}</th>`).join("")}</tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`).join("")}
+                    </tbody>
+                </table>`;
+            // Remove table lines from the original string
+            str = str.split("\n").filter(line => !line.startsWith("|")).join("\n");
+            return str + tableHTML;
+        }
+        return str;
+    }
+
+    // Process and combine text formatting and table conversion
+    inputString = convertTableToHTML(inputString);
+    inputString = cleanAndFormatString(inputString);
+
+    // Create a div and set its innerHTML
     const div = document.createElement("div");
-    div.className = "formatted-content"; // Optional: Add a class for styling
-    div.innerHTML = formattedContent;
+    div.innerHTML = inputString;
 
+    // Return the div element (Node) instead of a string
     return div;
 }
+
+
 
 
 

@@ -473,7 +473,7 @@ from langchain_community.llms import Ollama
 from langchain.docstore.document import Document
 from tempfile import NamedTemporaryFile
 
-llm = Ollama(model="llama3.2:latest")
+llm = Ollama(model="qwen2.5:0.5b")
 
 # Function to extract text from a PDF file
 def get_pdf_text(pdf_file):
@@ -569,7 +569,7 @@ Example Output:
 # Function to generate test scenarios using the chain
 def generate_test_scenarios(prd_text, config):
     context = prd_text
-    #question = f"Using the following configuration: {config}, generate test scenarios."
+    question = f"Using the following configuration: {config}, generate test scenarios."
     question=''
     document = Document(page_content=context, metadata={"source": "PRD data"})
     chain = get_conversational_chain()
