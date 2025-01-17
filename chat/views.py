@@ -518,7 +518,8 @@ def parse_json_config(json_string):
 # Function to set up the conversational chain
 def get_conversational_chain():
     prompt_template = """
-    Generate as much as test cases with maximum Test coverage by Including Product Coverage, Requirement Coverage, Risk Coverage, Boundary Value Coverage based on the provided Product Requirement Document (PRD).
+
+Generate as much as test cases with maximum Test coverage by Including Product Coverage, Requirement Coverage, Risk Coverage, Boundary Value Coverage based on the provided Product Requirement Document (PRD).
 
 IMPORTANT NOTE : "I need you to generate full test coverage, not even neglecting a single workflow or functionality. Cover all the aspects widely. Don't worry about the token used."
 
@@ -529,20 +530,18 @@ Steps:
 1. Analyze Requirements: [ only for your understanding ] 
    - Review the PRD to identify and generate test cases in:
      - Input Variations: Valid and invalid inputs for flows with test data.
-     - User Acceptance
-     - Functional Test Cases: Evaluate individual fields, workflows, and state transitions as specified in the PRD. Apply testing techniques like decision tables and equivalence partitioning where applicable.
      - Boundary Conditions: Limits such as extremely long usernames or passwords.
-     - Positive Scenarios: Ensure successful operations.
      - Edge Cases: Scenarios like empty inputs and prefilled fields.
      - Negative Scenarios: Cases like SQL injection attempts.
      - Positive Scenarios: Successful operations, e.g., user registration.
-     - Input Variations: Include both valid and invalid inputs with appropriate test data.
-     - Test Category: Specify as Functional or Non-Functional (e.g., Non-Functional: Performance).
-     - Non-Functional Testing: Performance, security, compatibility, usability.
-     - User Behavior and Data Integrity testing.
-     - Compatibility: Test across different devices, browsers, and operating systems.
-     - Test Data : Include example test data if necessary
+     - Test Data : Include detailed test data in every test cases, If there are no test data mention N/A.
 
+2. Test case Generation format
+
+	- Test Case Summary: Brief, clear title for the test case.
+	- Description: A detailed explanation of what the test case validates( Starts with "as a customer"), Include test data if required or mention N/A.
+	- Test Category : Mention the test category as  Functional and Non-Functional [ Non-Functional : Performance, Non-Functional : UI/UX, Non-Functional :  Security, Non-Functional: Compatibility testing.] 
+	- Priority : Mention the priority of the test case as Critical, High, Medium, Minor, On-time
 
 ---
 Example Output:
@@ -558,7 +557,7 @@ Example Output:
     ...
     Here is my product requirement document data: {context}
     {question}
-    generate test scenarios accordingly
+    generate test cases for in the desired table format!
     """
     prompt = PromptTemplate(
         template=prompt_template,
