@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Scenarios Generator</title>
+    <link rel="stylesheet" href="{% static 'styles/landing_page.css' %}">
+    <style>
+        html {
+            scroll-behavior: smooth; /* Enables smooth scrolling */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <svg preserveAspectRatio="xMidYMid meet" data-bbox="41.233 25.942 317.537 348.118" viewBox="41.233 25.942 317.537 348.118" xmlns="http://www.w3.org/2000/svg" data-type="color" role="img" aria-label="QuarkSek Logo" class="logo-svg">
+                <g>
+                    <path fill="#293476" d="M192.1 74.4c-10.76.18-28.94 2.04-47.52 12.5-33.63 18.93-52.3 57.26-52.3 93.8 0 59.6 48.32 107.92 107.92 107.92 3.12 0 6.21-.14 9.26-.4l-9.26-14.23-9.84-15.11 9.84-6.4 20.63-13.42 25.2 39.6 26.84 41.67 22.15 34.39-29.72 19.34-26.19-40.25a156.982 156.982 0 0 1-38.91 4.99h-.47c-86.53 0-158.34-70.03-158.34-156.56 0-.28.03-.66 0-1.11-3.2-51.54 42.07-165.82 176.02-154.39-4.79-.41-15.14 8.61-21.12 19.86-5.21 12.46-4.46 23.01-4.19 27.8Z" data-color="1"></path>
+                    <path fill="#d1202d" d="M200.2 65.63v89.63c0 26.16 21.21 47.37 47.37 47.37h40.56c8.92 0 16.64 9.1 14.19 17.68-4.9 17.12-19.79 40.6-47.85 54.14l26.66 41.39s77.64-40.13 77.64-127.3c0-17.57-16.44-34.18-34-34.18h-56.74c-11.02 0-19.95-8.93-19.95-19.95v-30.63c0-10.22 13.3-16.65 21.24-10.21 0 0 27.9 18.46 31.95 41.82h48.71s-19.21-79.01-103.22-104.5c-23.19-7.04-46.55 10.53-46.55 34.77Z" data-color="2"></path>
+                </g>
+            </svg>
+            <h1>QST Test Scenarios Generator</h1>
+        </div>
+        <div class="links">
+            <a href="#" class="active">Home</a>
+            <a href="#features">Features</a>
+            <a href="#">Plans & Pricing</a>
+        </div>
+        <button class="contact-button">Contact Us</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-header">
+        <div class="hero-content">
+            <h1>Test Scenarios Generator</h1>
+            <p>Streamline your testing process with automated test scenarios generation.</p>
+            <button class="btn-primary" onclick="window.location.href='/get_started/'">Get Started</button>
+        </div>
+    </header>
+
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>What We Offer</h2>
+        <div class="features" id="features">
+            <div class="feature-item">
+                <h3>Automated Test Scenarios</h3>
+                <p>Generate comprehensive test scenarios for your applications.</p>
+            </div>
+            <div class="feature-item">
+                <h3>File Upload Support</h3>
+                <p>Upload documents like PDFs to generate relevant test cases.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Efficient Management</h3>
+                <p>Keep track of conversations and scenarios generated for each task.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 QuarkSek Technologies. All rights reserved.</p>
+    </footer>
+</body>
+</html>

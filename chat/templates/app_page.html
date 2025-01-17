@@ -1,0 +1,218 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QST Test Scenarios Generator</title>
+    <link rel="stylesheet" href="{% static 'styles/app.css' %}">
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebar-toggle">
+        <img src="{% static 'media/menu-collapsed1.svg' %}" style="width: 30px; height: 30px;" class="menu-icon collapsed-icon" alt="Collapsed Menu Icon" />
+        <img src="{% static 'media/menu-ellapsed1.svg' %}" style="width: 30px; height: 30px; display: none;" class="menu-icon expanded-icon" alt="Expanded Menu Icon" />
+    </button>
+    <button id="new-icon">
+        <img src="{% static 'media/new1.svg' %}"  style="width: 35px; height: 35px; margin-left: 4px;" class=" new-icon" alt="New Menu Icon" />
+    </button>
+    
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div id="sidebar-list">
+            <!-- Conversations will be dynamically loaded here -->
+            <div class="no-conversations">No previous test scenarios generated</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        
+        <button  id="settings-icon">
+            <img src="{% static 'media/settings.svg' %}"  style="width: 35px; height: 35px; margin-left: 4px;" class="settings-icon" alt="New Menu Icon" />
+        </button>
+        <button  id="logout-icon">
+            <img src="{% static 'media/logout.png' %}"  style="width: 35px; height: 35px; margin-left: 4px;" class="logout-icon" alt="logout Icon" />
+        </button>
+        <div id="logout-dropdown" class="logout-dropdown">
+            <p>Are you sure you want to logout?</p>
+            <div class="yes-no-logout">
+            <button id="confirm-logout" class="logout-btn">Yes</button>
+            <button id="cancel-logout" class="logout-btn">No</button>
+            </div>
+        </div>
+        
+    
+        <form id="chat-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if is_new %}
+            <h3 class="new-instruct">Type product requirement or upload your product requirement document to start generating test scenarios... </h3>                                  
+            {% endif %}
+            <input id="hidden-cid" style="display: none;" value="{{encrypted_cid}}" name="cid">
+            
+            <div class="input-container">                
+                <input type="text" id="input-string" name="input_string" placeholder=" Ask Test Scenarios here " required />
+                
+                <!-- Custom Button to Trigger File Input -->
+                <button type="button" id="input-file-btn" class="input-icon-btn">
+                    <img class="input-icon-btn" src="{% static 'media/attach_icon.png' %}" alt="Attach File Icon" />
+                    <div class="attach-bg" id="attach-bg"></div>
+                    <div id="file-status" class="file-status">
+                        <span id="file-name" class="file-name"></span>
+                    </div>
+                </button>
+                
+                <!-- Hidden File Input -->
+                <input type="file" id="input-file" class="input-file" name="input_file" style="display: none;" accept=".pdf">
+                
+                <!-- File Name and Status -->
+                
+                
+                <!-- Send Button -->
+                <button type="submit" id="send-btn" class="input-icon-btn">
+                    <img class="input-icon-btn" src="{% static 'media/send_button_icon.png' %}" alt="Send Button Icon" />
+                </button>
+            </div>
+            
+            <div id="config-dropdown" class="config-dropdown">
+                <div class="config-body">
+                    <!-- Application Type Section -->
+                    
+                    <div class="config-item">
+                        <label for="use_default">Use Default</label>
+                        <input type="checkbox" id="use_default" name="use_default" />
+                    </div>
+                    <div class="config-item">
+                        <label for="application_type_web_app">Web App</label>
+                        <input type="checkbox" id="application_type_web_app" name="application_type_web_app" />
+                    </div>
+                    <div class="config-item">
+                        <label for="application_type_mobile_app">Mobile App</label>
+                        <input type="checkbox" id="application_type_mobile_app" name="application_type_mobile_app" />
+                    </div>
+                    <div class="config-item">
+                        <label for="application_type_api">API</label>
+                        <input type="checkbox" id="application_type_api" name="application_type_api" />
+                    </div>
+            
+                    <!-- Test Design Techniques Section -->
+                    <div class="config-heading">Test Design Techniques</div>
+                    <div class="config-item">
+                        <label for="test_design_techniques_boundary_value_analysis">Boundary Value Analysis</label>
+                        <input type="checkbox" id="test_design_techniques_boundary_value_analysis" name="test_design_techniques_boundary_value_analysis" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_design_techniques_equivalence_partitioning">Equivalence Partitioning</label>
+                        <input type="checkbox" id="test_design_techniques_equivalence_partitioning" name="test_design_techniques_equivalence_partitioning" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_design_techniques_state_transition_testing">State Transition Testing</label>
+                        <input type="checkbox" id="test_design_techniques_state_transition_testing" name="test_design_techniques_state_transition_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_design_techniques_decision_table_testing">Decision Table Testing</label>
+                        <input type="checkbox" id="test_design_techniques_decision_table_testing" name="test_design_techniques_decision_table_testing" />
+                    </div>
+            
+                    <!-- Testing Coverage Section -->
+                    <div class="config-heading">Testing Coverage</div>
+                    <div class="config-item">
+                        <label for="test_coverage_functional_testing">Functional Testing</label>
+                        <input type="checkbox" id="test_coverage_functional_testing" name="test_coverage_functional_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing">Non-functional Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing" name="test_coverage_nonfunctional_testing" />
+                    </div>
+            
+                    <!-- Functional Testing Coverage Options -->
+                    <div class="config-item">
+                        <label for="test_coverage_functional_testing_individual_field_testing">Individual Field Testing</label>
+                        <input type="checkbox" id="test_coverage_functional_testing_individual_field_testing" name="test_coverage_functional_testing_individual_field_testing" />
+                    </div>
+            
+                    <!-- Non-functional Testing Coverage Options -->
+                    <div class="config-heading">Non-functional Testing Coverage</div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing_performance_testing">Performance Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing_performance_testing" name="test_coverage_nonfunctional_testing_performance_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing_security_testing">Security Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing_security_testing" name="test_coverage_nonfunctional_testing_security_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing_compatibility_testing">Compatibility Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing_compatibility_testing" name="test_coverage_nonfunctional_testing_compatibility_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing_network_based_testing">Network-based Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing_network_based_testing" name="test_coverage_nonfunctional_testing_network_based_testing" />
+                    </div>
+                    <div class="config-item">
+                        <label for="test_coverage_nonfunctional_testing_interruption_testing">Interruption Testing</label>
+                        <input type="checkbox" id="test_coverage_nonfunctional_testing_interruption_testing" name="test_coverage_nonfunctional_testing_interruption_testing" />
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+        </form>
+
+        <div class="history-container" id="chat-history">
+        </div>
+    </div>
+
+    <script>
+        // Function to handle the response from the new-convo view
+        function startNewChat() {
+            // Use the URL generated by Django for the 'new_convo' view
+            fetch("{% url 'new_convo' %}")
+                .then(response => response.json())
+                .then(data => {
+                    // Update the hidden-cid input value with the encrypted id
+                    document.getElementById('hidden-cid').value = data.encrypted_string;
+    
+                    // Display the new chat instructions if it's a new chat
+                    if (data.new_convo === 'true') {
+                        document.querySelector('.new-instruct').style.display = 'block';
+                        // Clear the chat history if needed (you can reset chat container here)
+                        document.getElementById('chat-history').innerHTML = '';  // Example of clearing chat history
+                        const inputContainer = document.querySelector('.input-container');
+                        if (inputContainer) {
+                        inputContainer.style.transition = 'transform 0.3s ease-in-out'; // Smooth transition
+                        inputContainer.style.transform = 'translateY(0px)'; 
+                        inputContainer.style.position = 'relative'; 
+                        inputContainer.style.width = '100%'; // Stretch to fit the width
+                        inputContainer.style.zIndex = '10'; // Ensure it's above the chat container
+                                               
+                    }
+                        
+                    }
+                })
+                .catch(error => console.error('Error starting new chat:', error));
+        }
+    
+        // Add the click event listener to the button with id "new-icon"
+        document.getElementById('new-icon').addEventListener('click', startNewChat);
+        
+    function showLoadingIcon() {
+    const loadingIcon = document.createElement('img');
+    loadingIcon.src = "{% static 'media/loading.gif' %}"; // Use the Django static tag
+    loadingIcon.alt = "Loading...";
+    loadingIcon.classList.add('loading-icon'); // Add a class for styling
+    
+    const lastOutputMessage = document.querySelector('.chat-message:last-child .output-message .message-content');
+    if (lastOutputMessage) {
+        lastOutputMessage.appendChild(loadingIcon);
+    }
+}
+
+
+    </script>
+    <script src="{% static 'js/app.js' %}" defer></script>
+</body>
+</html>

@@ -1,0 +1,639 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar {
+    width: 250px;
+    background-color: #333;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0);
+    overflow: hidden; 
+}
+
+#sidebar.collapsed {
+    transform: translateX(-100%); /* Move the sidebar off-screen */
+}
+
+#sidebar-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+#sidebar-toggle img {
+    width: 30px;
+}
+
+
+#sidebar-list {
+    max-height: calc(100vh - 70px); /* Adjust to give space for top padding */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    margin-top: 70px;
+}
+
+/* Custom Scrollbar Styles */
+#sidebar-list::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+#sidebar-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3E511E, #5a8a3c); /* Dark green to olive green gradient */
+    border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+#sidebar-list::-webkit-scrollbar-track {
+    background: #121212; /* Dark background for the scrollbar track */
+    border-radius: 5px;
+}
+
+#sidebar-list::-webkit-scrollbar-corner {
+    background: transparent; /* No background in the corner */
+}
+
+
+/* Base styling for the convo buttons */
+#sidebar-list .convo-button {
+    width: 95%;
+    background-color: transparent;  /* No background by default */
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;  /* Smooth transition */
+}
+
+/* Hover effect */
+#sidebar-list .convo-button:hover {
+    background-color: #444;  /* Dark background on hover */
+    border-radius: 4px;
+}
+
+
+
+.active-convo{
+    background-color: #444444 !important;/* Dark background when active */
+    color: white  !important;
+    font-weight: bold !important;
+    border-radius: 4px !important;
+}
+
+#main-content {
+    margin-left: 250px; /* Sidebar width */
+    padding: 50px;
+    transition: margin-left 0.3s ease-in-out;
+    height: 80vh;
+    overflow: visible;
+}
+
+#main-content.expanded {
+    margin-left: 0; /* Take full screen when sidebar is collapsed */
+    max-height: 50vh;
+}
+
+#chat-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    text-align: center;  /* Center-align the text inside the h3 */
+    margin: 0 auto;      /* Ensure the form stays centered horizontally */
+}
+
+#chat-form h3 {
+    position: relative;
+    top: 200px;
+    font-size: 1.2rem;   /* Adjust font size as needed */
+    color: #f5f5f5;      /* Ensure the text color is consistent with the theme */
+    max-width: 800px;    /* Optional: Limit the width of the text */
+    line-height: 1.5;    /* Improve readability */
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Center the input and buttons */
+    position: relative;
+    left:38px;
+    width: 100%; /* Full width */
+    max-width: 800px; /* Add a max-width to limit the width of the input field */
+    margin: 0 auto; /* Center the container horizontally */
+    padding-top: 20%;
+    max-height: 80px;
+}
+
+#input-string {
+    flex: 1;
+    width: 100%; /* Ensure the input takes the available space */
+    max-width: 800px; /* Max width for the input */
+    padding: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: #222;
+    color: #fff;
+    resize: none;
+    height: 70px; /* Allow for 3 lines of text */
+    line-height: 1.5;
+    padding-left: 40px; /* Ensure text doesn't overlap with attach icon */
+}
+
+.input-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.attach-bg{
+    position: relative;
+    top: -40px;
+    left: 3px;
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 20px;
+    z-index: 0;
+}
+
+#input-file-btn {
+    position: relative;
+    left: -100px;
+    top: 40px;
+}
+#input-file {
+    position: relative;
+}
+
+#send-btn {
+    position: relative;
+    margin-left: 10px;
+    left: -100px;
+    top: 40px;
+}
+
+.send-btn-bg {
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 22px;
+    position: relative;
+    top: -9px;
+    left: 8px;
+}
+
+
+#chat-history {
+    max-height: 65vh; /* Adjust height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: -60px;
+    margin-left: 40px;
+    margin-right: 20px; /* Optional, for spacing from other content */
+    padding-right: 5px; /* Ensure space for scrollbar */
+    scrollbar-width: thin; /* For Firefox: makes the scrollbar thinner */
+    scrollbar-color: #3E511E #121212; /* For Firefox: thumb and track colors */
+    width: 100%;
+}
+
+/* Custom Scrollbar Styles for Webkit Browsers */
+#chat-history::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+#chat-history::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3E511E, #5a8a3c); /* Dark green to olive green gradient */
+    border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+#chat-history::-webkit-scrollbar-track {
+    background: #121212; /* Dark background for the scrollbar track */
+    border-radius: 5px;
+}
+
+#chat-history::-webkit-scrollbar-corner {
+    background: transparent; /* No background in the corner */
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Common Styles for Chat Messages */
+.chat-message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.message {
+    display: flex;
+    max-width: 60%;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* User Message Styles */
+.user-message {
+    align-self: flex-end;
+    background-color: #3E511E;
+    color: #FFFFFF;
+    border-radius: 15px 15px 0 15px;
+    margin-right: 40px;
+}
+
+/* Output Message Styles */
+.output-message {
+    align-self: flex-start;
+    background-color: #2A2E28;
+    color: #D4EDDA;
+    border-radius: 15px 15px 15px 0;
+}
+
+/* File URL Styling */
+.file-message .message-content a {
+    color: #A9BFA9;  /* Light green text color for links */
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    background-color: #333; /* Dark background for the link container */
+    padding: 8px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  /* Subtle shadow for depth */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    display: inline-block;  /* Ensure it is treated as a block for proper spacing */
+}
+
+/* Hover Effects */
+.file-message .message-content a:hover {
+    background-color: #3E511E;  /* Darker green when hovered */
+    color: #FFFFFF;  /* Change text color to white on hover */
+    transform: scale(1.05);  /* Slight scaling effect on hover for interactivity */
+}
+
+/* File URL Styling */
+.file-message .message-content a {
+    color: #A9BFA9;  /* Light green text color for links */
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    background-color: #333; /* Dark background for the link container */
+    padding: 8px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  /* Subtle shadow for depth */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    display: inline-block;  /* Ensure it is treated as a block for proper spacing */
+}
+
+/* Hover Effects */
+.file-message .message-content a:hover {
+    background-color: #3E511E;  /* Darker green when hovered */
+    color: #FFFFFF;  /* Change text color to white on hover */
+    transform: scale(1.05);  /* Slight scaling effect on hover for interactivity */
+}
+
+/* Active State (when clicked or focused) */
+.file-message .message-content a:active {
+    background-color: #4b6a51;  /* Even darker green for active state */
+    transform: scale(1);  /* Reset scale on active */
+}
+
+
+
+/* Message Content */
+.message-content {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+
+.chat-message p {
+    margin: 5px 0;
+}
+
+.menu-icon {
+    width: 30px;
+}
+
+#new-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1;
+    top: 25px;
+    left: 70px;
+}
+
+.new-icon img {
+    display: block;
+    width: 35px;
+    height: 35px;
+    
+}
+
+#settings-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+.settings-icon {
+    display: block;
+    margin-left: 4px;
+    position: fixed;
+    z-index: 1;
+    top: 27px;
+    left: 1400px;
+}
+
+#logout-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.logout-icon {
+    display: block;
+    margin-left: 4px;
+    position: fixed;
+    z-index: 1;
+    top: 27px;
+    left: 1450px;
+}
+
+.logout-dropdown {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 1350px;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    text-align: center;
+}
+
+.logout-dropdown p {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.logout-btn {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background-color: #4CAF50;
+}
+
+.logout-btn:hover {
+    background-color: #45a049;
+}
+
+.yes-no-logout{
+    display: flex;
+    justify-content: center;
+    justify-items: left;
+}
+
+#confirm-logout {
+    background-color: #E74C3C; /* Red button for confirmation */
+}
+
+#confirm-logout:hover {
+    background-color: #C0392B;
+}
+
+
+.config-dropdown {
+    display: none;
+    position: absolute;
+    top: 70px; /* Adjust based on your layout */
+    right: 20px;
+    width: 250px;  /* Reduced size for a smaller dropdown */
+    max-height: 400px;  /* Set max height for scrolling */
+    padding: 10px;
+    background-color: #222;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto;  /* Allow vertical scrolling */
+}
+
+.config-dropdown.show {
+    display: block;
+}
+
+.config-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.config-item {
+    display: flex;
+    align-items: left;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.config-item label {
+    color: #f5f5f5;
+    font-size: 14px;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.config-item input {
+    transform: scale(1.2);
+    margin-left: 10px;
+}
+
+.config-heading {
+    font-size: 16px;
+    color: #f5f5f5;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #555;
+    padding-bottom: 5px;
+}
+
+.config-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Custom dark-grey-green scrollbar */
+.config-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.config-dropdown::-webkit-scrollbar-track {
+    background: #333;
+}
+
+.config-dropdown::-webkit-scrollbar-thumb {
+    background-color: #5a7b67;
+    border-radius: 10px;
+}
+
+.config-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: #4b6a51;
+}
+
+
+#settings-icon img {
+    width: 35px;
+    height: 35px;
+}
+
+
+.collapsed-icon {
+    display: inline;
+}
+
+.expanded-icon {
+    display: none;
+}
+
+#sidebar.collapsed + #main-content .collapsed-icon {
+    display: none;
+}
+
+#sidebar.collapsed + #main-content .expanded-icon {
+    display: inline;
+}
+
+
+
+.no-conversations {
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: #999;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 10px;
+    position: absolute;
+    top: 100px; /* Same as the margin-top of #sidebar-list */
+    left: 10px;
+    z-index: 1; /* Ensure it appears above scrolling content */
+    width: 75%;
+    
+}
+
+
+/* Disable text selection */
+#chat-history, .convo-button, .input-container {
+    user-select: none; /* Prevent text selection */
+}
+
+/* Remove focus outline when clicking or hovering */
+#chat-history, .convo-button, .input-container, .input-icon-btn {
+    outline: none; /* Remove outline */
+}
+
+/* Remove any hover highlight effects */
+#chat-history *:hover, .convo-button:hover, .input-container *:hover {
+    background-color: transparent; /* Disable hover highlight */
+    text-decoration: none; /* Remove underline or other hover effects */
+}
+
+.file-status {
+    position: absolute;
+    display: hidden ;
+}
+
+.loading-icon {
+    display: block;
+    margin: 0 auto;
+    width: 100px; /* Adjust size as needed */
+    height: 100px;
+}
+
+/* Container for each conversation item */
+.convo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin-bottom: 10px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* Rename icon styling */
+.rename-icon {
+    font-size: 16px;
+    color: #aaa;
+    margin-left: -10px;
+    cursor: pointer;
+    visibility: hidden;
+    transition: color 0.3s ease, visibility 0.3s ease;
+}
+
+.rename-icon:hover {
+    color: #f5f5f5; /* Lighten the icon color on hover */
+}
+
+/* Show the rename icon on hover */
+.convo-item:hover .rename-icon {
+    visibility: visible;
+}
+
+/* Adjust hover effect for the button to ensure it works with the icon */
+.convo-item:hover .convo-button {
+    background-color: #444; /* Maintain hover effect on button */
+    border-radius: 4px;
+}
+
+/* Prevent layout shift when hovering */
+.rename-icon {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

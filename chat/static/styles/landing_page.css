@@ -1,0 +1,192 @@
+/* General Styles */
+body {
+    background-color: #181818; /* Darker background for a black-grey look */
+    color: #e0e0e0; /* Light gray text for contrast */
+    font-family: sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(24, 24, 24, 0.9); /* Dark background with slight transparency */
+    padding: 10px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+    height: 70px;
+}
+
+.navbar:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar .logo .logo-svg {
+    width: 50px;
+    height: 50px;
+}
+
+.navbar .logo h1 {
+    font-size: 1.7rem;
+    color: #A8D08D; /* Soft Green for logo text */
+    font-weight: bold;
+}
+
+.navbar .links {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar .links a {
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #A8D08D; /* Soft Green */
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s ease;
+}
+
+.navbar .links a:hover,
+.navbar .links a.active {
+    color: #66CDAA; /* Lighter Green */
+    transform: translateY(-5px); /* Lift on hover */
+}
+
+.navbar .contact-button {
+    background-color: #4CAF50; /* Bright Green */
+    color: #FFFFFF; /* White text */
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px; /* Rounded button */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar .contact-button:hover {
+    background-color: #388E3C; /* Darker Green on hover */
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Section */
+header.hero-header {
+    background: linear-gradient(135deg, #123524, #4B5B35); /* Dark green to olive green gradient */
+    color: #ffffff; /* Light beige text color */
+    padding: 120px 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+header .hero-content h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+header .hero-content p {
+    font-size: 1.3rem;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+header .btn-primary {
+    background-color: #60791e; /* Olive green */
+    border: none;
+    color: #EFE3C2; /* Light beige text */
+    padding: 18px 35px;
+    font-size: 1.2rem;
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+header .btn-primary:hover {
+    background-color: #7e8d0b; /* Dark green for hover effect */
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Enhanced hover shadow */
+}
+
+/* Features Section */
+section.features-section {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #1F1F1F; /* Dark gray background */
+    text-align: center;
+}
+
+section.features-section h2 {
+    font-size: 2.5rem;
+    color: #A8D08D; /* Soft Green for heading */
+    margin-bottom: 35px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    background: #2F3C1F; /* Dark olive green */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.feature-item h3 {
+    font-size: 1.9rem;
+    color: #e0e0e0; /* Light gray text color */
+    margin-bottom: 20px;
+}
+
+.feature-item p {
+    font-size: 1.1rem;
+    color: #d3d3d3; /* Lighter gray text */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #123524; /* Dark green footer */
+    color: #ffffff; /* Light beige text */
+    margin-top: 80px;
+    border-radius: 15px;
+}
+
+footer p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+footer a {
+    text-decoration: none;
+    color: #ffffff; /* Light beige */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #66CDAA; /* Light green on hover */
+}

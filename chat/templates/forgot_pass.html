@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QST Test Scenarios Generator</title>
+    <link rel="stylesheet" href="{% static 'styles/logreg.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <svg preserveAspectRatio="xMidYMid meet" data-bbox="41.233 25.942 317.537 348.118" viewBox="41.233 25.942 317.537 348.118" xmlns="http://www.w3.org/2000/svg" data-type="color" role="img" aria-label="QuarkSek Logo" class="logo-svg">
+                <g>
+                    <path fill="#293476" d="M192.1 74.4c-10.76.18-28.94 2.04-47.52 12.5-33.63 18.93-52.3 57.26-52.3 93.8 0 59.6 48.32 107.92 107.92 107.92 3.12 0 6.21-.14 9.26-.4l-9.26-14.23-9.84-15.11 9.84-6.4 20.63-13.42 25.2 39.6 26.84 41.67 22.15 34.39-29.72 19.34-26.19-40.25a156.982 156.982 0 0 1-38.91 4.99h-.47c-86.53 0-158.34-70.03-158.34-156.56 0-.28.03-.66 0-1.11-3.2-51.54 42.07-165.82 176.02-154.39-4.79-.41-15.14 8.61-21.12 19.86-5.21 12.46-4.46 23.01-4.19 27.8Z" data-color="1"></path>
+                    <path fill="#d1202d" d="M200.2 65.63v89.63c0 26.16 21.21 47.37 47.37 47.37h40.56c8.92 0 16.64 9.1 14.19 17.68-4.9 17.12-19.79 40.6-47.85 54.14l26.66 41.39s77.64-40.13 77.64-127.3c0-17.57-16.44-34.18-34-34.18h-56.74c-11.02 0-19.95-8.93-19.95-19.95v-30.63c0-10.22 13.3-16.65 21.24-10.21 0 0 27.9 18.46 31.95 41.82h48.71s-19.21-79.01-103.22-104.5c-23.19-7.04-46.55 10.53-46.55 34.77Z" data-color="2"></path>
+                </g>
+            </svg>
+            <h1>QST Test Scenarios Generator</h1>
+        </div>
+        <div class="links">
+            <a href="/" >Home</a>
+            <a href="/get_started" class="active">Getting Started</a>
+            <a href="#">Plans & Pricing</a>
+        </div>
+        <button class="contact-button">Contact Us</button>
+    </nav>
+    <div class="banner">
+        <div class="wrapper">
+            <div class="form-box login">
+                <h2>Enter Your Email ID to Receive OTP for Password Reset</h2>
+                <form action="{% url 'pass_reset_req' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-box">
+                        <input type="email" name="em" required>
+                        <label>Email</label>
+                        <h3 class="alert_red" style="color: red; font-size: medium;font-weight: bolder; margin: 2px;" >{{ alert }}</h3>
+                    </div>
+                    <button type="submit" class="btn">Submit</button>
+                    <div class="alert_red" style="color: red; font-size: medium;font-weight: bolder; margin: 2px;">{{pg_alert}}</div>  
+                    <div class="pg_alert_green" style="color: yellow; font-size: medium;font-weight: bolder; margin: 2px;">{{pg_alert_green}}</div>  
+                </form>
+            </div>
+            <div class="form-box register">
+                <h2>Set New Password for your email</h2>
+                <form action="{% url 'pass_reset' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="em" value="{{ em }}">
+                    <div class="input-box">
+                        <input type="password" name="pass" required>
+                        <label>New Password</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="pass" required>
+                        <label>Confirm Password</label>
+                    </div>
+                    <button type="submit" class="btn">Change Password</button>                   
+                </form>
+                <div class="pg_alert_green">{{pg_alert_green}}</div> 
+                <div class="alert_red" style="color: red; font-size: medium;font-weight: bolder; margin: 2px;">{{pg_alert}}</div> 
+            </div>
+            <div class="form-box otp-verify">
+                <div class="otp-verify-size">
+                <h2>Check your email inbox for the password reset OTP</h2>
+                <form action="{% url 'pass_reset_otp' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-box">
+                        <input type="number" name="otp" required>
+                        <label>Enter OTP</label>
+                        <h3 class="alert_red" style="color: red; font-size: medium;font-weight: bolder; margin: 2px;">{{ alert }}</h3>
+                    </div>
+                    <!-- Hidden fields for encrypted data -->
+                    <input type="hidden" name="em" value="{{ em }}">
+                    <input type="hidden" name="o" value="{{ o }}">
+                    
+                    <button type="submit" class="btn">Register</button>
+                    <div class="alert_red" style="color: red; font-size: medium;font-weight: bolder; margin: 2px;">{{pg_alert}}</div>
+                    <div class="pg_alert_green" style="color: yellow; font-size: medium;font-weight: bolder; margin: 2px;">{{pg_alert_green}}</div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const wrapper = document.querySelector('.wrapper');
+        const pg = "{{ pg }}";  // Django template variable passed from views      
+        if (pg == "login") {
+            // Show Login Form
+            console.log("pass req page has to be rendered");
+            wrapper.classList.remove('active','otp-verify');
+        } else if (pg == "reg") {
+            // Show Register Form
+            console.log("pass reset page has to be rendered");
+            wrapper.classList.add('active');
+            wrapper.classList.remove('otp-verify');
+        } else if (pg == "otp_verify") {
+            // Show OTP Verification Form
+            console.log("pass otp verify page has to be rendered");
+            wrapper.classList.add('otp-verify');
+            wrapper.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
